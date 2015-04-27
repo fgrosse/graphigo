@@ -74,4 +74,4 @@ Any contributions are always welcome (use pull requests).
 Please keep in mind that I might not always be able to respond immediately but I usually try to react within the week ☺.
 
 [1]: http://graphite.readthedocs.org/en/latest/overview.html
-[2]: http://godoc.org/github.com/fgrosse/graphigo
+[2]: http://godoc.org/github.com/FGrosse/graphigo
