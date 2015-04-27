@@ -28,7 +28,7 @@ const DefaultTimeout = 5
 
 // New creates a new instance of a graphite client.
 // Use the address:port notation to specify the port.
-func New(address string) *Graphigo {
+func NewClient(address string) *Graphigo {
 	return &Graphigo{Address: address}
 }
 
