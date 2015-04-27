@@ -14,7 +14,7 @@ No additional dependencies are required.
 
 ## Documentation
 
-TBA
+A generated documentation is available at [godoc.org][2]
 
 ## Usage
 
