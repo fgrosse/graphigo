@@ -26,7 +26,15 @@ package tests
 import "github.com/fgrosse/graphigo"
 
 func usageExample() {
-	client := graphigo.NewClient("graphite.your.org:2003")
+    config = loadYourConfiguration()
+    
+    var client graphigo.GraphiteClient
+    if config.GraphiteEnabled {
+	    client = graphigo.NewClient("graphite.your.org:2003")
+    } else {
+        // there is also a null implementation which does not send any data to graphite
+        client = graphigo.NewNullClient()
+    }
 
 	// set a custom timeout for the graphite connection (optional, seconds, 0 = disabled)
 	client.Timeout = 0
