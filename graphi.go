@@ -9,7 +9,7 @@ import (
 )
 
 // Graphigo is a simple implementation of the GraphiteClient interface
-// You can get new instances using graphigo.New(address)
+// You can get new instances using graphigo.NewClient(address)
 // If you want to configure a global name prefix for all recorded values you
 // can access the globally available Prefix field.
 // To set a timeout on the underlying connection to graphite, set the Timeout field
@@ -26,7 +26,7 @@ type Graphigo struct {
 // if no explicit timeout has been configured.
 const DefaultTimeout = 5
 
-// New creates a new instance of a graphite client.
+// NewClient creates a new instance of a graphite client.
 // Use the address:port notation to specify the port.
 func NewClient(address string) *Graphigo {
 	return &Graphigo{Address: address}
@@ -49,7 +49,12 @@ func (g *Graphigo) Connect() (err error) {
 		g.Timeout = DefaultTimeout * time.Second
 	}
 
-	g.connection, err = net.DialTimeout("tcp", g.Address, g.Timeout)
+	timeout := g.Timeout
+	if g.Timeout == -1 {
+		timeout = 0
+	}
+
+	g.connection, err = net.DialTimeout("tcp", g.Address, timeout)
 	return err
 }
 
