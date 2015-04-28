@@ -89,6 +89,20 @@ func setupGraphiteClient(address string, enabled bool) graphigo.GraphiteClient {
 }
 ```
 
+## Running the tests
+
+Graphigo uses the awesome [ginkgo][3] framework for its tests.
+You can execute the tests running:
+```
+ginkgo tests
+```
+
+If you prefer to use `go test` directly you can either switch into the `./tests` directory and run it there or
+run the following from the repository root directory:
+```
+go test ./tests
+```
+
 ## Contributing
 
 Any contributions are always welcome (use pull requests).
@@ -96,3 +110,4 @@ Please keep in mind that I might not always be able to respond immediately but I
 
 [1]: http://graphite.readthedocs.org/en/latest/overview.html
 [2]: http://godoc.org/github.com/FGrosse/graphigo
+[3]: http://onsi.github.io/ginkgo/
