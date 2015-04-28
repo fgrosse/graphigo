@@ -55,24 +55,27 @@ var _ = Describe("Usage Example", func() {
 	})
 
 	It("should work with the NullClient", func() {
-		var client graphigo.GraphiteClient
-		client = graphigo.NewNullClient()
-
-		if err := client.Connect(); err != nil {
-			panic(err)
+		setupGraphiteClient := func(address string, enabled bool) graphigo.GraphiteClient {
+			if enabled {
+				client := graphigo.NewClient(address)
+				client.Prefix = "foo.bar.baz"
+				return client
+			} else {
+				return graphigo.NewNullClient()
+			}
 		}
 
-		defer client.Disconnect()
+		var client graphigo.GraphiteClient
+		client = setupGraphiteClient("localhost", false)
+		client.Connect()
 
-		client.SendValue("hello.graphite.world", 42)
-		metric := graphigo.NewMetric("test", 3.14) // you can use any type as value
-		client.Send(metric)
-
-		metrics := []graphigo.Metric{
+		client.SendValue("foo", 123)
+		client.Send(graphigo.NewMetric("test", 3.14))
+		client.SendAll([]graphigo.Metric{
 			graphigo.NewMetric("foo", 1),
 			graphigo.NewMetric("bar", 1.23),
-			graphigo.NewMetric("baz", "456"),
-		}
-		client.SendAll(metrics)
+		})
+
+		client.Disconnect()
 	})
 })

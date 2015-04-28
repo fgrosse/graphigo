@@ -26,21 +26,13 @@ package tests
 import "github.com/fgrosse/graphigo"
 
 func usageExample() {
-    config = loadYourConfiguration()
-    
-    var client graphigo.GraphiteClient
-    if config.GraphiteEnabled {
-	    client = graphigo.NewClient("graphite.your.org:2003")
-	    
-	    // set a custom timeout for the graphite connection (optional, seconds, 0 = disabled)
-        client.Timeout = 0
-        
-        // set a custom prefix for all recorded metrics of this client (optional)
-        client.Prefix = "foo.bar.baz"
-    } else {
-        // there is also a null implementation which does not send any data to graphite
-        client = graphigo.NewNullClient()
-    }
+    client := graphigo.NewClient("graphite.your.org:2003")
+
+    // set a custom timeout for the graphite connection (optional, seconds, 0 = disabled)
+    client.Timeout = 0
+
+    // set a custom prefix for all recorded metrics of this client (optional)
+    client.Prefix = "foo.bar.baz"
 
 	if err := client.Connect(); err != nil {
 		panic(err)
@@ -73,6 +65,25 @@ func usageExample() {
 		graphigo.NewMetric("my", 5),
 		graphigo.NewMetric("money", 6),
 	})
+}
+```
+
+There is also the `NullClient` implementation which implements the `GraphiteClient` interface but does not actually send any data to graphite.
+
+```go
+package tests
+
+import "github.com/fgrosse/graphigo"
+
+// Note that we do return the interface so we can also set up the concrete implementation in this function
+func setupGraphiteClient(address string, enabled bool) graphigo.GraphiteClient {
+    if enabled {
+	    client := graphigo.NewClient(address)
+        client.Prefix = "foo.bar.baz"
+        return client
+    } else {
+        return graphigo.NewNullClient()
+    }
 }
 ```
 
