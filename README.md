@@ -1,6 +1,8 @@
 Graphigo
 ========
 
+[![Build Status](https://secure.travis-ci.org/FGrosse/graphigo.png?branch=master)](http://travis-ci.org/FGrosse/graphigo)
+
 This is simple go client for the [graphite monitoring tool][1].
 
 ## Installation
