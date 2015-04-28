@@ -1,3 +1,5 @@
+// Package graphigo provides a simple go client for the graphite monitoring tool.
+// See http://graphite.readthedocs.org/en/latest/overview.html
 package graphigo
 
 import (
@@ -10,8 +12,10 @@ import (
 
 // Graphigo is a simple implementation of the GraphiteClient interface
 // You can get new instances using graphigo.NewClient(address)
+//
 // If you want to configure a global name prefix for all recorded values you
 // can access the globally available Prefix field.
+//
 // To set a timeout on the underlying connection to graphite, set the Timeout field
 // of this struct.
 type Graphigo struct {
@@ -71,6 +75,7 @@ func (g *Graphigo) Disconnect() error {
 }
 
 // SendValue creates a new graphigo.Metric with the metric timestamp set to now and sends it to graphite.
+//
 // Use Send(metric) if you want to split metric recording and sending.
 // This will return an error if the client has not yet been connected or the metric name is empty.
 func (g *Graphigo) SendValue(name string, value interface{}) error {
@@ -82,6 +87,7 @@ func (g *Graphigo) SendValue(name string, value interface{}) error {
 
 // Send sends a graphigo.Metric to graphite.
 // This can be used to send a metric which has been recorded earlier.
+//
 // Use SendValue if you want to create and send a metric in one step.
 // Use SendAll if you want to send multiple metrics at once.
 // This will return an error if the client has not yet been connected or the metric name is empty.
@@ -91,6 +97,7 @@ func (g *Graphigo) Send(metric Metric) error {
 
 // SendAll sends multiple graphigo.Metric to graphite.
 // This can be used to send multiple metrics that have been recorded earlier.
+//
 // Use Send if you want to send a single metric.
 // This will return an error if the client has not yet been connected or if any of the metrics has an empty name.
 func (g *Graphigo) SendAll(metrics []Metric) (err error) {
