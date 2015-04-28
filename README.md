@@ -7,7 +7,7 @@ This is simple go client for the [graphite monitoring tool][1].
 
 ## Installation
 
-Use `go get` to install graphigo
+Use `go get` to install graphigo:
 ```
 go get github.com/fgrosse/graphigo
 ```
@@ -30,7 +30,9 @@ import "github.com/fgrosse/graphigo"
 func usageExample() {
     client := graphigo.NewClient("graphite.your.org:2003")
 
-    // set a custom timeout for the graphite connection (optional, seconds, 0 = disabled)
+    // set a custom timeout (seconds) for the graphite connection
+    // if timeout = 0 then the graphigo.DefaultTimeout = 5 seconds is used
+    // Setting Timeout to -1 disables the timeout
     client.Timeout = 0
 
     // set a custom prefix for all recorded metrics of this client (optional)
