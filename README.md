@@ -1,6 +1,8 @@
 Graphigo
 ========
 
+[![GoDoc](https://godoc.org/github.com/FGrosse/graphigo?status.svg)](https://godoc.org/github.com/FGrosse/graphigo)
+
 A simple go client for the [graphite monitoring tool][1].
 
 ## Installation
