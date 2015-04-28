@@ -31,13 +31,16 @@ func usageExample() {
     var client graphigo.GraphiteClient
     if config.GraphiteEnabled {
 	    client = graphigo.NewClient("graphite.your.org:2003")
+	    
+	    // set a custom timeout for the graphite connection (optional, seconds, 0 = disabled)
+        client.Timeout = 0
+        
+        // set a custom prefix for all recorded metrics of this client (optional)
+        client.Prefix = "foo.bar.baz"
     } else {
         // there is also a null implementation which does not send any data to graphite
         client = graphigo.NewNullClient()
     }
-
-	// set a custom timeout for the graphite connection (optional, seconds, 0 = disabled)
-	client.Timeout = 0
 
 	if err := client.Connect(); err != nil {
 		panic(err)
@@ -45,9 +48,6 @@ func usageExample() {
 
 	// close the TCP connection properly if you don't need it anymore
 	defer client.Disconnect()
-
-	// set a custom prefix for all recorded metrics of this client (optional)
-	client.Prefix = "foo.bar.baz"
 
 	// capture and send values using a single line
 	client.SendValue("hello.graphite.world", 42)

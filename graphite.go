@@ -5,6 +5,8 @@ package graphigo
 type GraphiteClient interface {
 	Connect() error
 	Disconnect() error
+
+	SendValue(name string, value interface{}) error
 	Send(Metric) error
 	SendAll([]Metric) error
 }

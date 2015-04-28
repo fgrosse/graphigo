@@ -7,6 +7,7 @@ import (
 )
 
 var _ = Describe("Usage Example", func() {
+
 	It("should not panic", func() {
 		conn := newConnectionMock()
 		client := &graphigo.Graphigo{}
@@ -51,5 +52,26 @@ var _ = Describe("Usage Example", func() {
 			graphigo.NewMetric("my", 5),
 			graphigo.NewMetric("money", 6),
 		})
+	})
+
+	It("should work with the NullClient", func() {
+		client := graphigo.NewNullClient()
+
+		if err := client.Connect(); err != nil {
+			panic(err)
+		}
+
+		defer client.Disconnect()
+
+		client.SendValue("hello.graphite.world", 42)
+		metric := graphigo.NewMetric("test", 3.14) // you can use any type as value
+		client.Send(metric)
+
+		metrics := []graphigo.Metric{
+			graphigo.NewMetric("foo", 1),
+			graphigo.NewMetric("bar", 1.23),
+			graphigo.NewMetric("baz", "456"),
+		}
+		client.SendAll(metrics)
 	})
 })

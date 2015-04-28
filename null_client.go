@@ -15,6 +15,10 @@ func (c *NullClient) Disconnect() error {
 	return nil
 }
 
+func (c *NullClient) SendValue(_ string, _ interface{}) error {
+	return nil
+}
+
 func (c *NullClient) Send(Metric) error {
 	return nil
 }
