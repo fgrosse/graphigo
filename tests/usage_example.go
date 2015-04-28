@@ -55,7 +55,8 @@ var _ = Describe("Usage Example", func() {
 	})
 
 	It("should work with the NullClient", func() {
-		client := graphigo.NewNullClient()
+		var client graphigo.GraphiteClient
+		client = graphigo.NewNullClient()
 
 		if err := client.Connect(); err != nil {
 			panic(err)

@@ -20,6 +20,12 @@ var _ = Describe("Graphigo", func() {
 		graphite.InjectConnection(conn)
 	})
 
+	It("should implement the GraphiteClient interface", func() {
+		var client graphigo.GraphiteClient
+		client = &graphigo.Graphigo{}
+		client.Connect()
+	})
+
 	Describe("Disconnect", func() {
 		It("should close the connection", func() {
 			Expect(conn.IsClosed).NotTo(BeTrue())
