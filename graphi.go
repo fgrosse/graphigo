@@ -22,9 +22,14 @@ type Graphigo struct {
 	connection io.WriteCloser
 }
 
-// DefaultTimeout is the timeout that is applied when connecting to a graphite server
-// if no explicit timeout has been configured.
-const DefaultTimeout = 5
+const (
+	// DefaultTimeout is the timeout that is applied when connecting to a graphite server
+	// if no explicit timeout has been configured.
+	DefaultTimeout = 5
+
+	// TimeoutDisabled is used to disable the client timeout entirely
+	TimeoutDisabled = -1
+)
 
 // NewClient creates a new instance of a graphite client.
 // Use the address:port notation to specify the port.
