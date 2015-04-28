@@ -5,7 +5,7 @@ This is simple go client for the [graphite monitoring tool][1].
 
 ## Installation
 
-Use `go-get` to install graphite-golang
+Use `go get` to install graphigo
 ```
 go get github.com/fgrosse/graphigo
 ```
