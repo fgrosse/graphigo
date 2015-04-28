@@ -1,7 +1,7 @@
 Graphigo
 ========
 
-This is simple go client for the [graphite monitoring tool][1].
+A simple go client for the [graphite monitoring tool][1].
 
 ## Installation
 
