@@ -1,8 +1,8 @@
 Graphigo
 ========
 
-[![Build Status](https://secure.travis-ci.org/fgrosse/graphigo.png?branch=master)](http://travis-ci.org/FGrosse/graphigo)
-[![GoDoc](https://godoc.org/github.com/FGrosse/graphigo?status.svg)](https://godoc.org/github.com/FGrosse/graphigo)
+[![Build Status](https://secure.travis-ci.org/fgrosse/graphigo.png?branch=master)](http://travis-ci.org/fgrosse/graphigo)
+[![GoDoc](https://godoc.org/github.com/fgrosse/graphigo?status.svg)](https://godoc.org/github.com/fgrosse/graphigo)
 
 A simple go client for the [graphite monitoring tool][1].
 
@@ -112,5 +112,5 @@ Any contributions are always welcome (use pull requests).
 Please keep in mind that I might not always be able to respond immediately but I usually try to react within the week ☺.
 
 [1]: http://graphite.readthedocs.org/en/latest/overview.html
-[2]: http://godoc.org/github.com/FGrosse/graphigo
+[2]: http://godoc.org/github.com/fgrosse/graphigo
 [3]: http://onsi.github.io/ginkgo/
