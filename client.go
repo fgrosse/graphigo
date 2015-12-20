@@ -48,6 +48,8 @@ func NewClient(address string) *Client {
 
 // Connect attempts to establish the connection to the graphite server.
 // This will return an error if a TCP connection can not or has already been established.
+//
+// If c is nil this will do nothing (noop)
 func (c *Client) Connect() (err error) {
 	if c == nil {
 		return nil
@@ -70,8 +72,9 @@ func (c *Client) Connect() (err error) {
 	return err
 }
 
-// Disconnect closes the underlying connection to graphite.
-func (c *Client) Disconnect() error {
+// Close implements the io.Closer interface by closing the clients Connection.
+// If c is nil this will do nothing (noop)
+func (c *Client) Close() error {
 	if c == nil {
 		return nil
 	}

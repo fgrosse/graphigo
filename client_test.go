@@ -21,10 +21,10 @@ var _ = Describe("Graphigo", func() {
 		c.Connection = conn
 	})
 
-	Describe("Disconnect", func() {
+	Describe("Close", func() {
 		It("should close the connection", func() {
 			Expect(conn.IsClosed).NotTo(BeTrue())
-			c.Disconnect()
+			c.Close()
 			Expect(conn.IsClosed).To(BeTrue())
 		})
 	})

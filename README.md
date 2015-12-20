@@ -48,7 +48,7 @@ func main() {
 	}
 
 	// close the TCP connection properly if you don't need it anymore
-	defer c.Disconnect()
+	defer c.Close()
 
 	// capture and send values using a single line
 	c.SendValue("hello.graphite.world", 42)
