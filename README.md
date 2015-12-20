@@ -2,7 +2,7 @@ Graphigo
 ========
 
 [![Build Status](https://secure.travis-ci.org/fgrosse/graphigo.png?branch=master)](http://travis-ci.org/fgrosse/graphigo)
-[![GoDoc](https://godoc.org/github.com/fgrosse/graphigo?status.svg)](https://godoc.org/github.com/fgrosse/graphigo)
+[![GoDoc](https://godoc.org/gopkg.in/fgrosse/graphigo.v2?status.svg)](https://godoc.org/gopkg.in/fgrosse/graphigo.v2)
 
 A simple go client for the [graphite monitoring tool][1].
 
