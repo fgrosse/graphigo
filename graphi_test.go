@@ -1,4 +1,4 @@
-package tests
+package graphigo_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -11,19 +11,13 @@ import (
 var _ = Describe("Graphigo", func() {
 	var (
 		graphite *graphigo.Graphigo
-		conn     *connectionMock
+		conn     *connMock
 	)
 
 	BeforeEach(func() {
 		conn = newConnectionMock()
 		graphite = &graphigo.Graphigo{}
-		graphite.InjectConnection(conn)
-	})
-
-	It("should implement the GraphiteClient interface", func() {
-		var client graphigo.GraphiteClient
-		client = &graphigo.Graphigo{}
-		client.Connect()
+		graphite.UseConnection(conn)
 	})
 
 	Describe("Disconnect", func() {

@@ -41,15 +41,19 @@ func NewClient(address string) *Graphigo {
 	return &Graphigo{Address: address}
 }
 
-// InjectConnection can be used to inject your own implementation of the connection to graphite.
-// The connection is reset by any call to Disconnect().
-func (g *Graphigo) InjectConnection(connection io.WriteCloser) {
-	g.connection = connection
+// UseConnection can be used to inject your own implementation of the connection to graphite.
+// The connection is closed by any call to Disconnect().
+func (g *Graphigo) UseConnection(c io.WriteCloser) {
+	g.connection = c
 }
 
 // Connect attempts to establish the connection to the graphite server.
 // This will return an error if a TCP connection can not or has already been established.
 func (g *Graphigo) Connect() (err error) {
+	if g == nil {
+		return nil
+	}
+
 	if g.connection != nil {
 		return fmt.Errorf("Graphigo is already connected. Call Disconnect first if you want to reconnect")
 	}
@@ -69,6 +73,10 @@ func (g *Graphigo) Connect() (err error) {
 
 // Disconnect closes the underlying connection to graphite.
 func (g *Graphigo) Disconnect() error {
+	if g == nil {
+		return nil
+	}
+
 	err := g.connection.Close()
 	g.connection = nil
 	return err
@@ -79,6 +87,10 @@ func (g *Graphigo) Disconnect() error {
 // Use Send(metric) if you want to split metric recording and sending.
 // This will return an error if the client has not yet been connected or the metric name is empty.
 func (g *Graphigo) SendValue(name string, value interface{}) error {
+	if g == nil {
+		return nil
+	}
+
 	return g.Send(Metric{
 		Name:  name,
 		Value: value,
@@ -92,6 +104,10 @@ func (g *Graphigo) SendValue(name string, value interface{}) error {
 // Use SendAll if you want to send multiple metrics at once.
 // This will return an error if the client has not yet been connected or the metric name is empty.
 func (g *Graphigo) Send(metric Metric) error {
+	if g == nil {
+		return nil
+	}
+
 	return g.SendAll([]Metric{metric})
 }
 
@@ -101,6 +117,10 @@ func (g *Graphigo) Send(metric Metric) error {
 // Use Send if you want to send a single metric.
 // This will return an error if the client has not yet been connected or if any of the metrics has an empty name.
 func (g *Graphigo) SendAll(metrics []Metric) (err error) {
+	if g == nil {
+		return nil
+	}
+
 	if g.connection == nil {
 		return fmt.Errorf("Graphigo is not connected yet. Did you forget to call Connect() ?")
 	}
