@@ -4,12 +4,13 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"testing"
-	"github.com/fgrosse/graphigo"
-	"strings"
 	"fmt"
-	"time"
 	"strconv"
+	"strings"
+	"testing"
+	"time"
+
+	"github.com/fgrosse/graphigo"
 )
 
 func TestGraphigo(t *testing.T) {

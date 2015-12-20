@@ -13,15 +13,6 @@ type Metric struct {
 	Timestamp time.Time
 }
 
-// NewMetric creates a new metric
-func NewMetric(name string, value interface{}) Metric {
-	return Metric{
-		Name:      name,
-		Value:     value,
-		Timestamp: time.Now(),
-	}
-}
-
 // UnixTimestamp returns the the number of seconds elapsed since January 1, 1970 UTC.
 func (m Metric) UnixTimestamp() int64 {
 	if m.Timestamp.IsZero() {
