@@ -20,6 +20,7 @@ type Metric struct {
 }
 
 // UnixTimestamp returns the the number of seconds elapsed since January 1, 1970 UTC.
+// If the metrics timestamp is zero it will return time.Now().Unix()
 func (m Metric) UnixTimestamp() int64 {
 	if m.Timestamp.IsZero() {
 		m.Timestamp = time.Now()
