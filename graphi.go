@@ -19,8 +19,14 @@ import (
 // To set a timeout on the underlying connection to graphite, set the Timeout field
 // of this struct.
 type Graphigo struct {
+	// Address is used when connecting to the graphite server. Use address:port notation.
 	Address string
+
+	// Timeout is the maximum duration that the client will wait for a response from the server.
 	Timeout time.Duration
+
+	// Prefix is prepended to all metric names (separated from original name by a dot)
+	// If Prefix is empty this does nothing
 	Prefix  string
 
 	connection io.WriteCloser

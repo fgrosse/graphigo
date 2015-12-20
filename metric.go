@@ -8,8 +8,14 @@ import (
 // Metric holds all information that is send to graphite.
 // The value can be any go type but in practice graphite will probably only accept numeric values.
 type Metric struct {
+	// The Name of the metric.
 	Name      string
+
+	// The Value of this metric. The client uses %v to format this.
 	Value     interface{}
+
+	// Timestamp represents the time when this metric was recorded.
+	// If this is the zero value the client will assume time.Now()
 	Timestamp time.Time
 }
 
