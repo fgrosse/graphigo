@@ -1,10 +1,20 @@
 Graphigo
 ========
 
-[![Build Status](https://secure.travis-ci.org/fgrosse/graphigo.png?branch=master)](http://travis-ci.org/fgrosse/graphigo)
+[![Build Status](https://travis-ci.org/fgrosse/graphigo.svg?branch=master)](https://travis-ci.org/fgrosse/graphigo)
 [![GoDoc](https://godoc.org/gopkg.in/fgrosse/graphigo.v2?status.svg)](https://godoc.org/gopkg.in/fgrosse/graphigo.v2)
 
 A simple go client for the [graphite monitoring tool][1].
+
+## Features
+
+- simple and clean API
+- send a whole bunch of metrics and send them all with one TCP call
+- supports timeouts
+- supports prefixes
+- all client functions are automatically noops if the client is `nil`
+- good test coverage and documentation
+- stable API via gopkg.in
 
 ## Installation
 
@@ -14,10 +24,6 @@ go get gopkg.in/fgrosse/graphigo.v2
 ```
 
 No additional dependencies are required.
-
-## Documentation
-
-A generated documentation is available at [godoc.org][2]
 
 ## Usage
 
@@ -63,7 +69,10 @@ func main() {
 }
 ```
 
-**Note**: All exported functions of the graphigo client are noops if the client is `nil`. 
+## Alternatives
+
+- https://github.com/marpaia/graphite-golang
+- https://github.com/ohlol/graphite-go
 
 ## Contributing
 
