@@ -10,7 +10,7 @@ A simple go client for the [graphite monitoring tool][1].
 
 Use `go get` to install graphigo:
 ```
-go get github.com/fgrosse/graphigo
+go get gopkg.in/fgrosse/graphigo.v2
 ```
 
 No additional dependencies are required.
@@ -24,7 +24,7 @@ A generated documentation is available at [godoc.org][2]
 ```go
 package main
 
-import "github.com/fgrosse/graphigo"
+import "gopkg.in/fgrosse/graphigo.v2"
 
 func main() {
     client := graphigo.NewClient("graphite.your.org:2003")

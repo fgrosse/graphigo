@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fgrosse/graphigo"
+	"gopkg.in/fgrosse/graphigo.v2"
 )
 
 func TestGraphigo(t *testing.T) {

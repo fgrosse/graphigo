@@ -6,7 +6,7 @@ import (
 
 	"time"
 
-	"github.com/fgrosse/graphigo"
+	"gopkg.in/fgrosse/graphigo.v2"
 )
 
 var _ = Describe("Graphigo", func() {

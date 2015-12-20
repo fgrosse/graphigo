@@ -1,6 +1,6 @@
 package graphigo_test
 
-import "github.com/fgrosse/graphigo"
+import "gopkg.in/fgrosse/graphigo.v2"
 
 func Example() {
 	client := graphigo.NewClient("graphite.your.org:2003")
