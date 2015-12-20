@@ -21,14 +21,12 @@ A generated documentation is available at [godoc.org][2]
 
 ## Usage
 
-The following usage example is basically a copy of [tests/usage_example.go](tests/usage_example.go) for your convenience.
-
 ```go
-package tests
+package main
 
 import "github.com/fgrosse/graphigo"
 
-func usageExample() {
+func main() {
     client := graphigo.NewClient("graphite.your.org:2003")
 
     // set a custom timeout (seconds) for the graphite connection
@@ -73,38 +71,7 @@ func usageExample() {
 }
 ```
 
-There is also the `NullClient` implementation which implements the `GraphiteClient` interface but does not actually send any data to graphite.
-
-```go
-package tests
-
-import "github.com/fgrosse/graphigo"
-
-// Note that we do return the interface so we can also set up the concrete implementation in this function
-func setupGraphiteClient(address string, enabled bool) graphigo.GraphiteClient {
-    if enabled {
-	    client := graphigo.NewClient(address)
-        client.Prefix = "foo.bar.baz"
-        return client
-    } else {
-        return graphigo.NewNullClient()
-    }
-}
-```
-
-## Running the tests
-
-Graphigo uses the awesome [ginkgo][3] framework for its tests.
-You can execute the tests running:
-```
-ginkgo tests
-```
-
-If you prefer to use `go test` directly you can either switch into the `./tests` directory and run it there or
-run the following from the repository root directory:
-```
-go test ./tests
-```
+**Note**: All exported functions of the graphigo client are noops if the client is `nil`. 
 
 ## Contributing
 
@@ -113,4 +80,3 @@ Please keep in mind that I might not always be able to respond immediately but I
 
 [1]: http://graphite.readthedocs.org/en/latest/overview.html
 [2]: http://godoc.org/github.com/fgrosse/graphigo
-[3]: http://onsi.github.io/ginkgo/

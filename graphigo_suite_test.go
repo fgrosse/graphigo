@@ -1,26 +1,35 @@
-package tests
+package graphigo_test
 
 import (
-	"fmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+
+	"testing"
 	"github.com/fgrosse/graphigo"
-	"strconv"
 	"strings"
+	"fmt"
 	"time"
+	"strconv"
 )
 
-type connectionMock struct {
+func TestGraphigo(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Graphigo Suite")
+}
+
+type connMock struct {
 	IsClosed    bool
 	SentMetrics []graphigo.Metric
 }
 
-func newConnectionMock() *connectionMock {
-	return &connectionMock{
+func newConnectionMock() *connMock {
+	return &connMock{
 		IsClosed:    false,
 		SentMetrics: []graphigo.Metric{},
 	}
 }
 
-func (c *connectionMock) Write(b []byte) (n int, err error) {
+func (c *connMock) Write(b []byte) (n int, err error) {
 	metricLines := strings.Split(string(b), "\n")
 	if len(metricLines) == 0 {
 		return 0, fmt.Errorf("No metrics given at all!")
@@ -49,7 +58,7 @@ func (c *connectionMock) Write(b []byte) (n int, err error) {
 	return len(b), nil
 }
 
-func (c *connectionMock) Close() error {
+func (c *connMock) Close() error {
 	c.IsClosed = true
 	return nil
 }
