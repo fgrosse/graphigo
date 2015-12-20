@@ -83,8 +83,10 @@ func (c *Client) Disconnect() error {
 
 // SendValue creates a new graphigo.Metric with the metric timestamp set to now and sends it to graphite.
 //
-// Use Send(metric) if you want to split metric recording and sending.
+// Use `Send(Metric)` if you want to split metric recording and sending.
 // This will return an error if the client has not yet been connected or the metric name is empty.
+//
+// If c is nil this will do nothing (noop)
 func (c *Client) SendValue(name string, value interface{}) error {
 	if c == nil {
 		return nil
@@ -99,9 +101,11 @@ func (c *Client) SendValue(name string, value interface{}) error {
 // Send sends a graphigo.Metric to graphite.
 // This can be used to send a metric which has been recorded earlier.
 //
-// Use SendValue if you want to create and send a metric in one step.
-// Use SendAll if you want to send multiple metrics at once.
+// Use `SendValue` if you want to create and send a metric in one step.
+// Use `SendAll` if you want to send multiple metrics at once.
 // This will return an error if the client has not yet been connected or the metric name is empty.
+//
+// If c is nil this will do nothing (noop)
 func (c *Client) Send(m Metric) error {
 	if c == nil {
 		return nil
@@ -113,8 +117,11 @@ func (c *Client) Send(m Metric) error {
 // SendAll sends multiple graphigo.Metric to graphite.
 // This can be used to send multiple metrics that have been recorded earlier.
 //
-// Use Send if you want to send a single metric.
-// This will return an error if the client has not yet been connected or if any of the metrics has an empty name.
+// Use `Send` if you want to send a single metric.
+// If the client has not yet been connected or if any of the metrics has an
+// empty name this function will return an error.
+//
+// If c is nil this will do nothing (noop)
 func (c *Client) SendAll(metrics []Metric) (err error) {
 	if c == nil {
 		return nil
