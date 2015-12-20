@@ -40,6 +40,8 @@ const (
 
 // NewClient creates a new instance of a graphite client.
 // Use the address:port notation to specify the port.
+// Note that the client will not connect to the given address automatically.
+// You still need to call Connect() before you can start sending values.
 func NewClient(address string) *Client {
 	return &Client{Address: address}
 }
