@@ -4,7 +4,7 @@ import "gopkg.in/fgrosse/graphigo.v2"
 
 func Example() {
 	client := graphigo.NewClient("graphite.your.org:2003")
-	client.UseConnection(newConnectionMock())
+	client.Connection = newConnectionMock()
 
 	// set a custom timeout (seconds) for the graphite connection
 	// if timeout = 0 then the graphigo.DefaultTimeout = 5 seconds is used

@@ -9,10 +9,10 @@ import (
 // The value can be any go type but in practice graphite will probably only accept numeric values.
 type Metric struct {
 	// The Name of the metric.
-	Name      string
+	Name string
 
 	// The Value of this metric. The client uses %v to format this.
-	Value     interface{}
+	Value interface{}
 
 	// Timestamp represents the time when this metric was recorded.
 	// If this is the zero value the client will assume time.Now()

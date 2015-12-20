@@ -10,57 +10,48 @@ import (
 	"time"
 )
 
-// Graphigo is a simple implementation of the GraphiteClient interface
-// You can get new instances using graphigo.NewClient(address)
-//
-// If you want to configure a global name prefix for all recorded values you
-// can access the globally available Prefix field.
-//
-// To set a timeout on the underlying connection to graphite, set the Timeout field
-// of this struct.
-type Graphigo struct {
+// Client is a simple TCP client for the graphite monitoring tool.
+type Client struct {
 	// Address is used when connecting to the graphite server. Use address:port notation.
 	Address string
 
 	// Timeout is the maximum duration that the client will wait for a response from the server.
+	// If timeout is zero then the DefaultTimeout is used.
+	// Setting Timeout to -1 disables the timeout.
 	Timeout time.Duration
 
-	// Prefix is prepended to all metric names (separated from original name by a dot)
-	// If Prefix is empty this does nothing
-	Prefix  string
+	// Prefix is prepended to all metric names (separated from original name by a dot).
+	// If Prefix is empty this does nothing.
+	Prefix string
 
-	connection io.WriteCloser
+	// Connection is used to communicate with the graphite client.
+	// You would normally not interfere with this but this can be handy for testing.
+	Connection io.WriteCloser
 }
 
 const (
-	// DefaultTimeout is the timeout that is applied when connecting to a graphite server
-	// if no explicit timeout has been configured.
+	// DefaultTimeout is the timeout that is applied when connecting to a graphite server.
+	// It is used if no explicit timeout has been configured on a client.
 	DefaultTimeout = 5
 
-	// TimeoutDisabled is used to disable the client timeout entirely
+	// TimeoutDisabled is used to disable the client timeout entirely.
 	TimeoutDisabled = -1
 )
 
 // NewClient creates a new instance of a graphite client.
 // Use the address:port notation to specify the port.
-func NewClient(address string) *Graphigo {
-	return &Graphigo{Address: address}
-}
-
-// UseConnection can be used to inject your own implementation of the connection to graphite.
-// The connection is closed by any call to Disconnect().
-func (g *Graphigo) UseConnection(c io.WriteCloser) {
-	g.connection = c
+func NewClient(address string) *Client {
+	return &Client{Address: address}
 }
 
 // Connect attempts to establish the connection to the graphite server.
 // This will return an error if a TCP connection can not or has already been established.
-func (g *Graphigo) Connect() (err error) {
+func (g *Client) Connect() (err error) {
 	if g == nil {
 		return nil
 	}
 
-	if g.connection != nil {
+	if g.Connection != nil {
 		return fmt.Errorf("Graphigo is already connected. Call Disconnect first if you want to reconnect")
 	}
 
@@ -73,18 +64,18 @@ func (g *Graphigo) Connect() (err error) {
 		timeout = 0
 	}
 
-	g.connection, err = net.DialTimeout("tcp", g.Address, timeout)
+	g.Connection, err = net.DialTimeout("tcp", g.Address, timeout)
 	return err
 }
 
 // Disconnect closes the underlying connection to graphite.
-func (g *Graphigo) Disconnect() error {
+func (g *Client) Disconnect() error {
 	if g == nil {
 		return nil
 	}
 
-	err := g.connection.Close()
-	g.connection = nil
+	err := g.Connection.Close()
+	g.Connection = nil
 	return err
 }
 
@@ -92,7 +83,7 @@ func (g *Graphigo) Disconnect() error {
 //
 // Use Send(metric) if you want to split metric recording and sending.
 // This will return an error if the client has not yet been connected or the metric name is empty.
-func (g *Graphigo) SendValue(name string, value interface{}) error {
+func (g *Client) SendValue(name string, value interface{}) error {
 	if g == nil {
 		return nil
 	}
@@ -109,7 +100,7 @@ func (g *Graphigo) SendValue(name string, value interface{}) error {
 // Use SendValue if you want to create and send a metric in one step.
 // Use SendAll if you want to send multiple metrics at once.
 // This will return an error if the client has not yet been connected or the metric name is empty.
-func (g *Graphigo) Send(metric Metric) error {
+func (g *Client) Send(metric Metric) error {
 	if g == nil {
 		return nil
 	}
@@ -122,12 +113,12 @@ func (g *Graphigo) Send(metric Metric) error {
 //
 // Use Send if you want to send a single metric.
 // This will return an error if the client has not yet been connected or if any of the metrics has an empty name.
-func (g *Graphigo) SendAll(metrics []Metric) (err error) {
+func (g *Client) SendAll(metrics []Metric) (err error) {
 	if g == nil {
 		return nil
 	}
 
-	if g.connection == nil {
+	if g.Connection == nil {
 		return fmt.Errorf("Graphigo is not connected yet. Did you forget to call Connect() ?")
 	}
 
@@ -151,6 +142,6 @@ func (g *Graphigo) SendAll(metrics []Metric) (err error) {
 		}
 	}
 
-	_, err = g.connection.Write(buffer.Bytes())
+	_, err = g.Connection.Write(buffer.Bytes())
 	return err
 }

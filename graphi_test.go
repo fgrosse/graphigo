@@ -11,14 +11,14 @@ import (
 
 var _ = Describe("Graphigo", func() {
 	var (
-		graphite *graphigo.Graphigo
+		graphite *graphigo.Client
 		conn     *connMock
 	)
 
 	BeforeEach(func() {
 		conn = newConnectionMock()
-		graphite = &graphigo.Graphigo{}
-		graphite.UseConnection(conn)
+		graphite = &graphigo.Client{}
+		graphite.Connection = conn
 	})
 
 	Describe("Disconnect", func() {
