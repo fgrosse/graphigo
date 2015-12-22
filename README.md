@@ -31,7 +31,10 @@ No additional dependencies are required.
 ```go
 package main
 
-import "gopkg.in/fgrosse/graphigo.v2"
+import (
+	"time"
+	"gopkg.in/fgrosse/graphigo.v2"
+)
 
 func main() {
     c := graphigo.Client{
@@ -59,6 +62,7 @@ func main() {
 	c.SendValue("hello.graphite.world", 42)
 
 	// capture a metric and send it any time later. You can use any type as value
+	// The next line could also be simplified with graphigo.CaptureMetric 
 	metric := graphigo.Metric{Name: "test", Value: 3.14, Timestamp: time.Now()}
 	defer c.Send(metric)
 

@@ -19,6 +19,20 @@ type Metric struct {
 	Timestamp time.Time
 }
 
+// CaptureMetric creates a new Metric with the Timestamp set to time.Now().
+// This is a handy utility function if you want to separate capturing metrics
+// and sending them. to the graphite server.
+//
+// If you want to capture a metric and immediately send it to graphite
+// consider using Client.SendValue
+func CaptureMetric(name string, value interface{}) Metric {
+	return Metric{
+		Name:      name,
+		Value:     value,
+		Timestamp: time.Now(),
+	}
+}
+
 // UnixTimestamp returns the the number of seconds elapsed since January 1, 1970 UTC.
 // If the metrics timestamp is zero it will return time.Now().Unix()
 func (m Metric) UnixTimestamp() int64 {

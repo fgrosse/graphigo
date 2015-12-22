@@ -11,8 +11,8 @@ import (
 
 var _ = Describe("Graphigo", func() {
 	var (
-		c *graphigo.Client
-		conn     *connMock
+		c    *graphigo.Client
+		conn *connMock
 	)
 
 	BeforeEach(func() {
