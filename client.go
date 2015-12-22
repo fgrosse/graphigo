@@ -7,12 +7,16 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strings"
 	"time"
 )
 
 // Client is a simple TCP client for the graphite monitoring tool.
 type Client struct {
 	// Address is used when connecting to the graphite server. Use address:port notation.
+	// If Address is empty then any call to Connect will try to connect to a local
+	// graphite instance. If you just omit the :port part the DefaultGraphitePort
+	// constant will be used instead.
 	Address string
 
 	// Timeout is the maximum duration that the client will wait for a response from the server.
@@ -34,17 +38,13 @@ const (
 	// It is used if no explicit timeout has been configured on a client.
 	DefaultTimeout = 5
 
+	// DefaultGraphitePort is the port a graphite server runs on by default.
+	// This port is used if you don't supply any port in the Address of the client.
+	DefaultGraphitePort = "2004"
+
 	// TimeoutDisabled is used to disable the client timeout entirely.
 	TimeoutDisabled = -1
 )
-
-// NewClient creates a new instance of a graphite client.
-// Use the address:port notation to specify the port.
-// Note that the client will not connect to the given address automatically.
-// You still need to call Connect() before you can start sending values.
-func NewClient(address string) *Client {
-	return &Client{Address: address}
-}
 
 // Connect attempts to establish the connection to the graphite server.
 // This will return an error if a TCP connection can not or has already been established.
@@ -66,6 +66,14 @@ func (c *Client) Connect() (err error) {
 	timeout := c.Timeout
 	if c.Timeout == -1 {
 		timeout = 0
+	}
+
+	if c.Address == "" {
+		c.Address = "localhost"
+	}
+
+	if !strings.Contains(c.Address, ":") {
+		c.Address = c.Address + ":" + DefaultGraphitePort
 	}
 
 	c.Connection, err = net.DialTimeout("tcp", c.Address, timeout)

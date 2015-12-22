@@ -1,21 +1,28 @@
 package graphigo_test
 
-import "gopkg.in/fgrosse/graphigo.v2"
+import (
+	"gopkg.in/fgrosse/graphigo.v2"
+	"time"
+)
 
 func Example() {
-	c := graphigo.NewClient("graphite.your.org:2003")
+	c := graphigo.Client{
+		// If you omit the entire address localhost:2004 will be assumed
+		// Just omitting the port is also valid and wil use the default port
+		Address: "graphite.your.org:2004",
+
+		// set a custom timeout (seconds) for the graphite connection
+		// if timeout = 0 then the graphigo.DefaultTimeout = 5 seconds is used
+		// Setting Timeout to graphite.TimeoutDisabled (-1) disables the timeout
+		Timeout: 42,
+
+		// set a custom prefix for all recorded metrics of this client (optional)
+		Prefix: "foo.bar.baz",
+	}
+
 	c.Connection = newConnectionMock()
-
-	// set a custom timeout (seconds) for the graphite connection
-	// if timeout = 0 then the graphigo.DefaultTimeout = 5 seconds is used
-	// Setting Timeout to -1 disables the timeout
-	c.Timeout = 0
-
-	// set a custom prefix for all recorded metrics of this client (optional)
-	c.Prefix = "foo.bar.baz"
-
 	if err := c.Connect(); err != nil {
-		panic(err)
+		panic(err) // do proper error handling
 	}
 
 	// close the TCP connection properly if you don't need it anymore
@@ -24,8 +31,8 @@ func Example() {
 	// capture and send values using a single line
 	c.SendValue("hello.graphite.world", 42)
 
-	// capture a metric and send it any time later
-	metric := graphigo.Metric{Name: "test", Value: 3.14} // you can use any type as value
+	// capture a metric and send it any time later. You can use any type as value
+	metric := graphigo.Metric{Name: "test", Value: 3.14, Timestamp: time.Now()}
 	defer c.Send(metric)
 
 	// create a whole bunch of metrics and send them all with one TCP call
